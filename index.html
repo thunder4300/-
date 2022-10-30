@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html class="no-js">
+    <title></title>
+    <meta name="robots" content="noindex, follow" />
+    <style type="text/css">
+      body {
+        margin: 0 !important;
+      }
+
+      iframe.iframe-player {
+        width: 100%;
+        min-height: 700px;
+      }
+    </style>
+  </head>
+  <div id="player"></div>
+  <script src="https://cdn.jsdelivr.net/npm/@clappr/player@0.4.0/dist/clappr.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cdnbye@latest/dist/hlsjs-p2p-engine.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/cdnbye@latest/dist/clappr-plugin.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/gh/clappr/clappr-level-selector-plugin@latest/dist/level-selector.min.js"></script>
+  <script>
+    var playerElement = document.getElementById("player");
+    var player = new Clappr.Player({
+      source: "http://nhttrfnk.azureedge.net/live/b2/playlist.m3u8",
+      height: '100%',
+      width: '100%',
+      loop: 'true',
+      plugins: [LevelSelector, CDNByeClapprPlugin],
+      mediacontrol: {
+        seekbar: '#014AFF',
+        buttons: '#FFF'
+      },
+      playback: {
+        hlsjsConfig: {
+          maxBufferSize: 0,
+          maxBufferLength: 10,
+          liveSyncDurationCount: 10,
+          p2pConfig: {
+            live: true,
+          }
+        }
+      },
+      mimeType: "application/x-mpegURL"
+    });
+    player.attachTo(playerElement);
+
+    function resizePlayer() {
+      var aspectRatio = 9 / 16,
+        newWidth = document.getElementById('player').parentElement.offsetWidth,
+        newHeight = 1.78 * Math.round(newWidth * aspectRatio / 2);
+      player.resize({
+        width: newWidth,
+        height: newHeight
+      });
+    }
+    resizePlayer();
+    window.onresize = resizePlayer;
+  </script>
+  </body>
+</html>
